@@ -81,15 +81,16 @@ const int8_t wave2[] PROGMEM = { // Обертоны
 
 int main(void)
 {
+  OSCCAL = 0x5D; //калибровка кривого генератора китайской тиньки. 
   DDRB = (1 << PORTB0); //|(1 << PORTB4);
-  PORTB = (1 << PINB3)|(1 << PINB4);
+  //PORTB = (1 << PINB3)|(1 << PINB4);
   
   
   
   OCR0A = 128;
   //TCCR0A = 0b11000011;
   TCCR0B = 0b00000001;
-  OSCCAL = 0x57;
+  
   PORTB &= ~(1 << PINB0); 
   
   while(1)
@@ -101,7 +102,7 @@ int main(void)
 			status = 1;
 		}
 		
-		if((PINB & (1<<Doors)) != 0) {
+		if((PINB & (1<<Doors)) == 0) {
 			TCCR0A = 0b11000011;
 			status = 2;
 		}
